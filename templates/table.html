@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Table</title>
+</head>
+<body>
+<!--{{table}}-->
+
+{% for sublist in countries %}
+    <tr>
+        <li>{{sublist}}</li>
+    </tr>
+
+{% endfor %}
+
+<!--<table border = 1>-->
+<!--    <thead>-->
+<!--        <tr>-->
+<!--            <th>Country</th>-->
+<!--            <th>Total Cases</th>-->
+<!--            <th>New Cases</th>-->
+<!--            <th>Total Deaths</th>-->
+<!--            <th>New Deaths</th>-->
+<!--            <th>Total Recovered</th>-->
+<!--            <th>Active Cases</th>-->
+<!--            <th>Serious Cases</th>-->
+<!--            <th>Total Cases/1M pop</th>-->
+<!--        </tr>-->
+<!--     </thead>-->
+<!--         <tr>-->
+<!--             <td></td>-->
+<!--             <td></td>-->
+<!--             <td></td>-->
+<!--             <td></td>-->
+<!--         </tr>-->
+<!-- </table>-->
+    <br>
+    <a href = "/">Go back to home page</a>
+</body>
+</html>
