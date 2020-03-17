@@ -6,14 +6,20 @@
 </head>
 <body>
 <!--{{table}}-->
-
-{% for sublist in countries %}
-    <tr>
-        <li>{{sublist}}</li>
-    </tr>
-
-{% endfor %}
-
+<table>
+<!--    {% for sublist in countries[0] %}-->
+<!--    <th>{{sublist}}</th>-->
+<!--    {% endfor %}-->
+    {% if %}
+    {% endif %}
+    {% for sublist in countries %}
+        <tr>
+            {% for subsublist in sublist %}
+            <td>{{subsublist}}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
 <!--<table border = 1>-->
 <!--    <thead>-->
 <!--        <tr>-->
