@@ -1,0 +1,12 @@
+import shelve
+from main import get_coronavirus_data
+
+s = shelve.open("corona")
+s["corona"] = get_coronavirus_data()
+s.close()
+
+
+s = shelve.open("corona")
+list(s.items())
+s.close()
+
