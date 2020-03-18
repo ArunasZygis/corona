@@ -1,26 +1,22 @@
-from pprint import pprint
-
 import requests
 from bs4 import BeautifulSoup
 
 
-def get_coronavirus_data():
+def get_corona_virus_data():
     url = 'https://www.worldometers.info/coronavirus/'
     corona_website_url = requests.get(url)
     answer_code = corona_website_url.status_code
     current_url_status = str(answer_code)
 
     if answer_code == requests.codes.ok:
-        print('Status is OK: ' + current_url_status)
+        print('Status is OK: ' +current_url_status)
     else:
-        print('Status is not OK: '+ current_url_status)
+        print('Status is not OK: ' +current_url_status)
 
     parse_website_data = corona_website_url.text
-    soup = BeautifulSoup(parse_website_data, 'html.parser')   #html.parser - standart Python parsing library
+    soup = BeautifulSoup(parse_website_data, 'html.parser')  # html.parser - Standard Python parsing library
     print("\n")
-    corona_table = soup.find('table',{'id': 'main_table_countries'})
-    # print(dir(corona_table))
-
+    corona_table = soup.find('table', {'id': 'main_table_countries'})
     table_rows = corona_table.find_all('tr')
 
     countries = []
@@ -37,10 +33,8 @@ def get_coronavirus_data():
     return countries
 
 
-
-
 if __name__ == '__main__':
-    print(get_coronavirus_data())
+    print(get_corona_virus_data())
 
 # def show_table():
 #     pprint(list(zip(*countries)))
@@ -48,7 +42,6 @@ if __name__ == '__main__':
 #
 #
 # show_table()
-
 
 
 # countries_column = []
