@@ -36,6 +36,9 @@ def get_coronavirus_data():
         countries.append(row_data)
     return countries
 
+
+
+
 if __name__ == '__main__':
     print(get_coronavirus_data())
 
