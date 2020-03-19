@@ -2,21 +2,29 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def get_corona_virus_data():
+def get_corona_virus_data(select_day):
     url = 'https://www.worldometers.info/coronavirus/'
     corona_website_url = requests.get(url)
     answer_code = corona_website_url.status_code
     current_url_status = str(answer_code)
 
     if answer_code == requests.codes.ok:
-        print('Status is OK: ' +current_url_status)
+        print('Status is OK: ' + current_url_status)
     else:
-        print('Status is not OK: ' +current_url_status)
+        print('Status is not OK: ' + current_url_status)
 
     parse_website_data = corona_website_url.text
     soup = BeautifulSoup(parse_website_data, 'html.parser')  # html.parser - Standard Python parsing library
     print("\n")
-    corona_table = soup.find('table', {'id': 'main_table_countries_today'})
+    corona_table_today = soup.find('table', {'id': 'main_table_countries_today'})
+    corona_table_yesterday = soup.find('table', {'id': 'main_table_countries_yesterday'})
+
+    if select_day == corona_table_today:
+        corona_table = corona_table_today
+    else:
+        corona_table = corona_table_yesterday
+
+
     table_rows = corona_table.find_all('tr')
     countries = []
     for idx, row in enumerate(table_rows):
@@ -32,9 +40,8 @@ def get_corona_virus_data():
         countries.append(row_data)
     return countries
 
-
-if __name__ == '__main__':
-    print(get_corona_virus_data())
+# if __name__ == '__main__':
+#     print(get_corona_virus_data())
 
 # def show_table():
 #     pprint(list(zip(*countries)))
