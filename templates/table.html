@@ -1,17 +1,24 @@
-{% extends "bootstrap/base.html" %}
-{%block html%}
-{{ super() }}
+<!doctype html>
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Table</title>
 </head>
+{% extends "bootstrap/base.html" %}
+{%block html%}
+{{ super() }}
+
 <body>
 <br>
-<div align="center" class="container-fluid">
-    <a class="btn btn-danger btn-lg btn-block" href="{{ url_for('return_updated_table') }}" role="button">Update</a>
+<div align="left" class="container-fluid">
+    <a href = "/" class="btn btn-success">Go back to Main page</a>
 </div>
 <br>
-<div class="container-fluid">
+<div align="center" class="container-fluid">
+    <a class="btn btn-danger btn-lg btn-block" href="{{ url_for('display_table', update=1) }}" role="button" onclick="myFunction()">Update</a>
+</div>
+<br>
+<div name="top" class="container-fluid">
     <div class="table-responsive">
         <table class="table table-bordered table-hover ">
             {% for sublist in countries %}
@@ -38,10 +45,17 @@
         </table>
     </div>
     <br>
-    <a href = "/">Go back to home page</a>
+    <a href = "#top" class="btn btn-danger btn-lg btn-block">Go back to the top of the page</a>
+    <br>
 </div>
+<script>
+function myFunction() {
+  alert("Data was updated!");
+}
+</script>
 </body>
 {%endblock%}
+</html>
 
 <!--{% for sublist in countries %}-->
 <!--    {% if loop.index0 == 0 %}-->

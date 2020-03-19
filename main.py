@@ -16,13 +16,13 @@ def get_corona_virus_data():
     parse_website_data = corona_website_url.text
     soup = BeautifulSoup(parse_website_data, 'html.parser')  # html.parser - Standard Python parsing library
     print("\n")
-    corona_table = soup.find('table', {'id': 'main_table_countries'})
+    corona_table = soup.find('table', {'id': 'main_table_countries_today'})
     table_rows = corona_table.find_all('tr')
-
     countries = []
     for idx, row in enumerate(table_rows):
         if idx == 0:
             trows_data = row.find_all('th')
+            print(trows_data)
         else:
             trows_data = row.find_all('td')
 
