@@ -12,7 +12,7 @@
 <div align="right" class="container-fluid">
     <nav class="navbar navbar-light bg-light">
         <form method="POST" class="form-inline" action="{{ url_for('search')}}">
-            <input id="title" name="title" value="{{ request.form['title']}}" required class="form-control mr-sm-2"
+            <input id="title" name="title" value="{{ request.form['title']}}" class="form-control mr-sm-2"
                    type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>

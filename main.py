@@ -19,7 +19,7 @@ def get_corona_virus_data(select_day):
     corona_table_today = soup.find('table', {'id': 'main_table_countries_today'})
     corona_table_yesterday = soup.find('table', {'id': 'main_table_countries_yesterday'})
 
-    if select_day == corona_table_today:
+    if select_day == "corona_table_today":
         corona_table = corona_table_today
     else:
         corona_table = corona_table_yesterday

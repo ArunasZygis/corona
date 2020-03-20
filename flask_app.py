@@ -29,7 +29,7 @@ def index():
 def display_table(update):
     if update == 1:
         print("updating with new data")
-        update_data(get_corona_virus_data('corona_table_today'))
+        update_data(get_corona_virus_data("corona_table_today"))
         new_url = url_for("display_table", update=0)
         return redirect(new_url)
     else:
@@ -42,14 +42,24 @@ def display_table(update):
 @app.route('/search', methods=('GET', 'POST'))
 def search():
     searched_keyword = request.form['title']
-    converted_kwd_to_string = str(searched_keyword)
+    converted_kwd_to_lowercase = searched_keyword.lower()
     list_for_search = display_data()
     results = []
-    for sublist in list_for_search:
-        if converted_kwd_to_string.lower() in str(sublist).lower():
+
+    if converted_kwd_to_lowercase == '':
+        return redirect('/')
+
+    for sublist in list_for_search[1:]:
+        if converted_kwd_to_lowercase in str(sublist).lower():
             results.append(sublist)
+            print("Country is added!")
+
+    if not results:
+        return redirect('/table/0')
+
     print(results)
     return render_template("search.html", search_result=results)
+
 
 
 @app.route('/yesterday_data')
