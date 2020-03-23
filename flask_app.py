@@ -1,9 +1,7 @@
-from pickle import GET
+from flask import Flask, render_template, url_for, redirect, request
 
-from flask import Flask, render_template, url_for, redirect, request, flash
-
-from database import display_data, update_data
-from main import get_corona_virus_data
+from database_creation_logic import display_data, update_data
+from data_scraping_logic import get_corona_virus_data
 from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
@@ -59,7 +57,6 @@ def search():
 
     print(results)
     return render_template("search.html", search_result=results)
-
 
 
 @app.route('/yesterday_data')
