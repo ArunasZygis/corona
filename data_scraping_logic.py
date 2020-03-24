@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup, element
 
+from date_selection import DataSource
+
 
 def get_website_response_status_code():
     """
@@ -26,7 +28,7 @@ def scrape_website_data(date_selection, url):
 
     :type date_selection: str
     :type url: str
-    :param date_selection: Date input to choose the right table.
+    :param date_selection: Date input to choose the right data source.
     :param url: Website url to scrape data from.
     :return: Beautiful Soup object.
     :rtype: bs4.element.Tag
@@ -34,7 +36,7 @@ def scrape_website_data(date_selection, url):
     website_url = requests.get(url)
     soup = BeautifulSoup(website_url.text, 'html.parser')  # html.parser - Standard Python parsing library
 
-    if date_selection == "corona_table_today":
+    if date_selection == DataSource.TODAY_TABLE:
         select_corona_table = soup.find('table', {'id': 'main_table_countries_today'})
     else:
         select_corona_table = soup.find('table', {'id': 'main_table_countries_yesterday'})
@@ -68,8 +70,9 @@ def create_list_of_countries(select_corona_table):
 
 def get_data_from_website(date_selection):
     """
-    Method to get and display countries in the table by selected day.
+    Method to get and display countries in the table by selected data source.
 
+    :param date_selection: Date input to choose the right data source.
     :rtype: list
     :return: List of the corona virus countries by selected day.
     :type date_selection: str

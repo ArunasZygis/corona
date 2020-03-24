@@ -1,5 +1,6 @@
 from flask import Flask, render_template, url_for, redirect, request
 
+from date_selection import DataSource
 from database_creation_logic import use_old_table_data, get_updated_table_data
 from data_scraping_logic import get_website_response_status_code, get_data_from_website
 from flask_bootstrap import Bootstrap
@@ -43,7 +44,7 @@ def main_table_page(update):
     """
     if update == 1:
         print("updating with new data")
-        get_updated_table_data(get_data_from_website("corona_table_today"))
+        get_updated_table_data(get_data_from_website(DataSource.TODAY_TABLE))
         new_url = url_for("main_table_page", update=0)
         return redirect(new_url)
     else:
@@ -86,7 +87,7 @@ def get_yesterday_data():
 
     :return: yesterday_data.html page.
     """
-    corona_table_countries = get_data_from_website('corona_table_yesterday')
+    corona_table_countries = get_data_from_website(DataSource.YESTERDAY_TABLE)
     # corona_tables = scrape_website_data('main_table_countries_yesterday',"https://www.worldometers.info/coronavirus/")
     # corona_table_countries = create_list_of_countries(corona_tables)
     return render_template('yesterday_data.html', yesterday_results=corona_table_countries)
