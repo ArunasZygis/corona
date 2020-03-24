@@ -1,54 +1,52 @@
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, element
 
 
-def get_corona_virus_data(select_day):
-    url = 'https://www.worldometers.info/coronavirus/'
-    corona_website_url = requests.get(url)
+def get_website_response_status_code():
+    web_url = 'https://www.worldometers.info/coronavirus/'
+    corona_website_url = requests.get(web_url)
     answer_code = corona_website_url.status_code
     current_url_status = str(answer_code)
 
     if answer_code == requests.codes.ok:
-        print('Status is OK: ' + current_url_status)
+        return print('Status is OK: ' + current_url_status)
     else:
-        print('Status is not OK: ' + current_url_status)
+        return print('Status is not OK: ' + current_url_status)
 
-    parse_website_data = corona_website_url.text
-    soup = BeautifulSoup(parse_website_data, 'html.parser')  # html.parser - Standard Python parsing library
-    print("\n")
-    corona_table_today = soup.find('table', {'id': 'main_table_countries_today'})
-    corona_table_yesterday = soup.find('table', {'id': 'main_table_countries_yesterday'})
 
-    if select_day == "corona_table_today":
-        corona_table = corona_table_today
+def scrape_website_data(date_selection, url) -> element.Tag:
+    website_url = requests.get(url)
+    soup = BeautifulSoup(website_url.text, 'html.parser')  # html.parser - Standard Python parsing library
+
+    if date_selection == "corona_table_today":
+        select_corona_table = soup.find('table', {'id': 'main_table_countries_today'})
     else:
-        corona_table = corona_table_yesterday
+        select_corona_table = soup.find('table', {'id': 'main_table_countries_yesterday'})
+    return select_corona_table
 
-    table_rows = corona_table.find_all('tr')
+
+def create_list_of_countries(select_corona_table):
+    all_table_rows = select_corona_table.find_all('tr')
     countries = []
-    for idx, row in enumerate(table_rows):
+    for idx, row in enumerate(all_table_rows):
         if idx == 0:
-            trows_data = row.find_all('th')
-            print(trows_data)
+            table_rows_data = row.find_all('th')
         else:
-            trows_data = row.find_all('td')
+            table_rows_data = row.find_all('td')
 
-        row_data = []
-        for td in trows_data:
-            row_data.append(td.text)
-        countries.append(row_data)
+        row_data_list = []
+        for td in table_rows_data:
+            row_data_list.append(td.text)
+
+        countries.append(row_data_list)
     return countries
 
-# if __name__ == '__main__':
-#     print(get_corona_virus_data())
 
-# def show_table():
-#     pprint(list(zip(*countries)))
-#
-#
-#
-# show_table()
-
+def get_data_from_website(date_selection):
+    web_url = 'https://www.worldometers.info/coronavirus/'
+    table_element = scrape_website_data(date_selection, url=web_url)
+    data_by_country = create_list_of_countries(table_element)
+    return data_by_country
 
 # countries_column = []
 # total_cases_column = []
