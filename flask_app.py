@@ -14,6 +14,11 @@ get_website_response_status_code()
 
 @app.route('/')
 def index_page():
+    """
+    Returns page index.html from the templates folder with main page information.
+
+    :return: index.html page.
+    """
     return render_template('index.html', heading=heading)
 
 
@@ -25,11 +30,21 @@ def index_page():
 
 
 @app.route('/table/<int:update>')
-def display_table(update):
+def main_table_page(update):
+    """
+    Method to return table.html page from the templates folder with a Corona virus cases table.
+
+    :type update: int
+    :param update: the variable of the page shows which page to return and what methods to call:
+    1- table_updated.html,
+    0 - table.html page.
+
+    :return: table.html page.
+    """
     if update == 1:
         print("updating with new data")
         get_updated_table_data(get_data_from_website("corona_table_today"))
-        new_url = url_for("display_table", update=0)
+        new_url = url_for("main_table_page", update=0)
         return redirect(new_url)
     else:
         print("using old data")
@@ -39,7 +54,12 @@ def display_table(update):
 
 
 @app.route('/search', methods=('GET', 'POST'))
-def search():
+def search_results_page():
+    """
+     Method to return a search.html page from the templates folder with search results.
+
+    :return: search.html page.
+    """
     searched_keyword = request.form['title']
     converted_kwd_to_lowercase = searched_keyword.lower()
     countries_list_for_search = use_old_table_data()
@@ -61,6 +81,11 @@ def search():
 
 @app.route('/yesterday_data')
 def get_yesterday_data():
+    """
+    Method to returns yesterday_data.html page from the templates folder with yesterday's corona virus results.
+
+    :return: yesterday_data.html page.
+    """
     corona_table_countries = get_data_from_website('corona_table_yesterday')
     # corona_tables = scrape_website_data('main_table_countries_yesterday',"https://www.worldometers.info/coronavirus/")
     # corona_table_countries = create_list_of_countries(corona_tables)

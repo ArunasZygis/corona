@@ -11,7 +11,7 @@
 <br>
 <div align="right" class="container-fluid">
     <nav class="navbar navbar-light bg-light">
-        <form method="POST" class="form-inline" action="{{ url_for('search')}}">
+        <form method="POST" class="form-inline" action="{{ url_for('search_results_page')}}">
             <input id="title" name="title" value="{{ request.form['title']}}" class="form-control mr-sm-2"
                    type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -23,7 +23,7 @@
 </div>
 <br>
 <div align="center" class="container-fluid">
-    <a class="btn btn-danger btn-lg btn-block" href="{{ url_for('display_table', update=1) }}" role="button"
+    <a class="btn btn-danger btn-lg btn-block" href="{{ url_for('main_table_page', update=1) }}" role="button"
        onclick="myFunction()">Update</a>
 </div>
 <br>
