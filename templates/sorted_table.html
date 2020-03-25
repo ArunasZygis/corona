@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Table</title>
+</head>
+{% extends "bootstrap/base.html" %}
+{%block html%}
+{{ super() }}
+<body>
+<br>
+<div align="right" class="container-fluid">
+    <nav class="navbar navbar-light bg-light">
+        <form method="POST" class="form-inline" action="{{ url_for('search_results_page')}}">
+            <input id="title" name="title" value="{{ request.form['title']}}" class="form-control mr-sm-2"
+                   type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </nav>
+</div>
+<div align="left" class="container-fluid">
+    <a href="/" class="btn btn-success">Go back to Main page</a>
+</div>
+<br>
+<div align="left" class="container-fluid">
+    <a href="/yesterday_data" class="btn btn-danger">Yesterday data</a>
+</div>
+<br>
+<div align="center" class="container-fluid">
+    <a class="btn btn-danger btn-lg btn-block" href="{{ url_for('main_table_page', update=1) }}" role="button"
+       onclick="myFunction()">Update</a>
+</div>
+<br>
+<div name="top" class="container-fluid">
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover ">
+            {% for sublist in sorted_results_list %}
+            {% if loop.index0 == 0 %}
+            <tr>
+                <th><a href="{{ url_for('get_sorted_table') }}">Country</a></th>
+                <th>Total Cases</th>
+                <th>New Cases</th>
+                <th>Total Deaths</th>
+                <th>New Deaths</th>
+                <th>Total Recovered</th>
+                <th>Active Cases</th>
+                <th>Serious Cases</th>
+                <th>Total Cases/1M pop</th>
+            </tr>
+            {%else%}
+            <tr>
+                {% for element in sublist %}
+                <td>{{element}}</td>
+                {% endfor %}
+            </tr>
+            {%endif%}
+            {% endfor %}
+        </table>
+    </div>
+    <br>
+    <a href="#top" class="btn btn-danger btn-lg btn-block">Go back to the top of the page</a>
+    <br>
+</div>
+<script>
+function myFunction() {
+  alert("Data was updated!");
+}
+</script>
+</body>
+{%endblock%}
+</html>
