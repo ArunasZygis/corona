@@ -37,7 +37,7 @@
             {% for sublist in countries %}
             {% if loop.index0 == 0 %}
             <tr>
-                <th>Country</th>
+                <th><a href="{{ url_for('get_sorted_table') }}">Country</a></th>
                 <th>Total Cases</th>
                 <th>New Cases</th>
                 <th>Total Deaths</th>

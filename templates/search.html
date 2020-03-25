@@ -33,6 +33,7 @@
         <table class="table table-bordered table-hover ">
             {% for sublist in search_result %}
             {% if loop.index0 == 0 %}
+            <thead>
             <tr>
                 <th>Country</th>
                 <th>Total Cases</th>
@@ -44,17 +45,22 @@
                 <th>Serious Cases</th>
                 <th>Total Cases/1M pop</th>
             </tr>
+            </thead>
+            <tbody>
             <tr>
                 {% for element in sublist %}
                 <td>{{element}}</td>
                 {% endfor %}
             </tr>
+            </tbody>
             {%else%}
+            <tbody>
             <tr>
                 {% for element in sublist %}
                 <td>{{element}}</td>
                 {% endfor %}
             </tr>
+            </tbody>
             {%endif%}
             {% endfor %}
         </table>
@@ -67,9 +73,6 @@
 function myFunction() {
   alert("Data was updated!");
 }
-
-
-
 </script>
 </body>
 {%endblock%}

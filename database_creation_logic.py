@@ -1,11 +1,12 @@
 import shelve
 
+from data_scraping_logic import CoronaTable
 
-def get_updated_table_data(new_data):
+
+def save_new_table_data(new_data: CoronaTable):
     """
-    Method to create and update table with the last data in the database.
+    Method to save newly acquired data in the database.
 
-    :rtype: list
     :param new_data: Old list of data by countries in the database.
     :return: List of data by countries in the database.
     """
@@ -14,11 +15,10 @@ def get_updated_table_data(new_data):
     s.close()
 
 
-def use_old_table_data():
+def get_corona_data_from_database() -> CoronaTable:
     """
     Method to display the last updated table from the database.
 
-    :rtype: list
     :return: List of data by countries in the database.
     """
     s = shelve.open("corona")
@@ -28,4 +28,4 @@ def use_old_table_data():
 
 
 if __name__ == '__main__':
-    print(use_old_table_data())
+    print(get_corona_data_from_database())

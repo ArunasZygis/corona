@@ -1,37 +1,41 @@
+from typing import List
+
 import requests
 from bs4 import BeautifulSoup, element
 
 from date_selection import DataSource
 
+CoronaTable = List[List[str]]
 
-def get_website_response_status_code():
+
+def get_website_response_status_code() -> str:
     """
     Method to get website response status code.
 
-    :rtype: str
     :return: Website response status code.
     """
     web_url = 'https://www.worldometers.info/coronavirus/'
     corona_website_url = requests.get(web_url)
-    answer_code = corona_website_url.status_code
-    current_url_status = str(answer_code)
+    website_response = corona_website_url.status_code
+    current_url_status = str(website_response)
 
-    if answer_code == requests.codes.ok:
-        return print('Status is OK: ' + current_url_status)
+    if website_response == requests.codes.ok:
+        current_response_status = 'STATUS IS OK: ' + current_url_status
+        print(current_response_status)
+        return current_response_status
     else:
-        return print('Status is not OK: ' + current_url_status)
+        current_response_status = 'Website is DOWN:' + current_url_status
+        print(current_response_status)
+        return current_response_status
 
 
-def scrape_website_data(date_selection, url):
+def scrape_website_data(date_selection: DataSource, url: str) -> element.Tag:
     """
     Method to scrape website and get data of corona virus infected countries by selected day.
 
-    :type date_selection: str
-    :type url: str
-    :param date_selection: Date input to choose the right data source.
+    :param date_selection: Date input to choose the right data source(for Today table or Yesterday table).
     :param url: Website url to scrape data from.
-    :return: Beautiful Soup object.
-    :rtype: bs4.element.Tag
+    :return: Beautiful Soup object to create a table of corona virus results.
     """
     website_url = requests.get(url)
     soup = BeautifulSoup(website_url.text, 'html.parser')  # html.parser - Standard Python parsing library
@@ -43,12 +47,11 @@ def scrape_website_data(date_selection, url):
     return select_corona_table
 
 
-def create_list_of_countries(select_corona_table):
+def create_list_of_countries(select_corona_table: element.Tag) -> CoronaTable:
     """
     Method to get data from provided Beautiful Soup object and create a list of corona virus countries.
 
-    :type select_corona_table: bs4.element.Tag
-    :rtype: list
+
     :param select_corona_table: Beautiful Soup object.
     :return: List of the corona virus countries.
     """
@@ -60,29 +63,31 @@ def create_list_of_countries(select_corona_table):
         else:
             table_rows_data = row.find_all('td')
 
-        row_data_list = []
-        for td in table_rows_data:
-            row_data_list.append(td.text)
+        table_rows_data_list = []
+        for countries_data in table_rows_data:
+            table_rows_data_list.append(countries_data.text)
 
-        countries.append(row_data_list)
+        countries.append(table_rows_data_list)
     return countries
 
 
-def get_data_from_website(date_selection):
+def get_table_rows_data():
+
+    pass
+
+
+def get_data_from_website(date_selection: DataSource) -> CoronaTable:
     """
     Method to get and display countries in the table by selected data source.
 
     :param date_selection: Date input to choose the right data source.
-    :rtype: list
-    :return: List of the corona virus countries by selected day.
-    :type date_selection: str
+    :return: Table of the corona virus countries by selected day.
     """
     web_url = 'https://www.worldometers.info/coronavirus/'
     table_element = scrape_website_data(date_selection, url=web_url)
     data_by_country = create_list_of_countries(table_element)
     return data_by_country
 
-# countries_column = []
 # total_cases_column = []
 # new_cases_column = []
 # total_deaths_column = []

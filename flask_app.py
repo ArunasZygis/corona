@@ -1,9 +1,11 @@
 from flask import Flask, render_template, url_for, redirect, request
 
 from date_selection import DataSource
-from database_creation_logic import use_old_table_data, get_updated_table_data
+from database_creation_logic import get_corona_data_from_database, save_new_table_data
 from data_scraping_logic import get_website_response_status_code, get_data_from_website
 from flask_bootstrap import Bootstrap
+
+from table_sorting_logic import get_sorted_table_by_country
 
 app = Flask(__name__)
 
@@ -44,13 +46,14 @@ def main_table_page(update):
     """
     if update == 1:
         print("updating with new data")
-        get_updated_table_data(get_data_from_website(DataSource.TODAY_TABLE))
+        corona_countries_list = get_data_from_website(DataSource.TODAY_TABLE)
+        save_new_table_data(corona_countries_list)
         new_url = url_for("main_table_page", update=0)
         return redirect(new_url)
     else:
         print("using old data")
 
-    countries = use_old_table_data()
+    countries = get_corona_data_from_database()
     return render_template('table.html', countries=countries)
 
 
@@ -63,7 +66,7 @@ def search_results_page():
     """
     searched_keyword = request.form['title']
     converted_kwd_to_lowercase = searched_keyword.lower()
-    countries_list_for_search = use_old_table_data()
+    countries_list_for_search = get_corona_data_from_database()
     search_results = []
 
     if converted_kwd_to_lowercase == '':
@@ -83,7 +86,7 @@ def search_results_page():
 @app.route('/yesterday_data')
 def get_yesterday_data():
     """
-    Method to returns yesterday_data.html page from the templates folder with yesterday's corona virus results.
+    Method to return yesterday_data.html page from the templates folder with yesterday's corona virus results.
 
     :return: yesterday_data.html page.
     """
@@ -91,6 +94,19 @@ def get_yesterday_data():
     # corona_tables = scrape_website_data('main_table_countries_yesterday',"https://www.worldometers.info/coronavirus/")
     # corona_table_countries = create_list_of_countries(corona_tables)
     return render_template('yesterday_data.html', yesterday_results=corona_table_countries)
+
+
+@app.route('/sorted_table')
+def get_sorted_table():
+    """
+    Method to return sorted_table.html page from the templates folder with corona virus results sorted by Countries
+    column (ascending order).
+
+    :return: sorted_table.html page.
+    """
+    countries_list = get_data_from_website(DataSource.YESTERDAY_TABLE)
+    sorted_countries_list = get_sorted_table_by_country(countries_list)
+    return render_template('sorted_table.html', sorted_results_list=sorted_countries_list)
 
 
 if __name__ == '__main__':  # it can be run Only directly.
