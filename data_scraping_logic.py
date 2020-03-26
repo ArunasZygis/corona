@@ -66,15 +66,15 @@ def create_list_of_countries(select_corona_table: element.Tag) -> CoronaTable:
         table_rows_data_list = []
         for countries_data in table_rows_data:
             table_rows_data_list.append(countries_data.text)
-
         countries.append(table_rows_data_list)
     return countries
 
 
-def get_table_rows_data():
-
-    pass
-
+# def get_table_rows_data(table_rows_data):
+#     table_rows_data_list = []
+#     for countries_data in table_rows_data:
+#         table_rows_data_list.append(countries_data.text)
+#     return table_rows_data_list
 
 def get_data_from_website(date_selection: DataSource) -> CoronaTable:
     """
