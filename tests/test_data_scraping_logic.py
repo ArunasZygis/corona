@@ -1,7 +1,8 @@
 from bs4 import element
 from mock import MagicMock, patch
 
-from data_scraping_logic import get_website_response_status_code, scrape_website_data, create_list_of_countries
+from data_scraping_logic import get_website_response_status_code, scrape_website_data, create_list_of_countries, \
+    get_data_from_website
 from date_selection import DataSource
 
 
@@ -75,3 +76,18 @@ def test_create_list_of_countries_positive_case():
 #     actual_returned_list = type(create_list_of_countries(table_element_to_create_table))
 #
 #     assert expected_returned_list == actual_returned_list
+
+
+def test_get_data_from_website():
+    date_selection = DataSource.TODAY_TABLE
+
+    actual_returned_table = get_data_from_website(date_selection)
+
+    assert len(actual_returned_table) > 0
+    assert isinstance(actual_returned_table, list)
+    assert all([isinstance(sublist, list) for sublist in actual_returned_table])
+
+    for sublist in actual_returned_table:
+        for sublist_element in sublist:
+            assert isinstance(sublist_element, str)
+
