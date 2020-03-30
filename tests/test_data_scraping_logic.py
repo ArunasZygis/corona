@@ -1,3 +1,4 @@
+import pytest
 from bs4 import element
 from mock import MagicMock, patch
 
@@ -25,7 +26,6 @@ def test_get_website_response_status_code_negative_case(mock_requests_get_method
     assert expected_status_code == actual_status_code
 
 
-# How you printed out right methods? Where to put html creation logic? How to text input correctly for scrap data?
 def test_scrape_website_data_from_today_table():
     website_url = 'https://www.worldometers.info/coronavirus/'
     date_selection = DataSource.TODAY_TABLE
@@ -36,6 +36,13 @@ def test_scrape_website_data_from_today_table():
     assert 'main_table_countries_today' == actual_returned_element.get('id')
     assert len(actual_returned_element.find_all('tr')) > 0
     # assert expected_returned_element == actual_returned_element
+
+
+def test_scrape_website_data_from_today_table_bad_data():
+    website_url = 'https://www.worldometers.info/coronavirus/'
+
+    with pytest.raises(Exception):
+        _ = scrape_website_data("abc", website_url)
 
 
 def test_scrape_website_data_from_yesterday_table():

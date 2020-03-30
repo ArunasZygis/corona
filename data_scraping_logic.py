@@ -42,8 +42,10 @@ def scrape_website_data(date_selection: DataSource, url: str) -> element.Tag:
 
     if date_selection == DataSource.TODAY_TABLE:
         select_corona_table = soup.find('table', {'id': 'main_table_countries_today'})
-    else:
+    elif date_selection == DataSource.YESTERDAY_TABLE:
         select_corona_table = soup.find('table', {'id': 'main_table_countries_yesterday'})
+    else:
+        raise Exception("Wrong value for data_selection argument. Expected one of TODAY_TABLE/YESTERDAY_TABLE")
     return select_corona_table
 
 
